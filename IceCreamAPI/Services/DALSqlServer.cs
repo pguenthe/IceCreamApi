@@ -18,6 +18,46 @@ namespace IceCreamAPI.Services
             connectionString = config.GetConnectionString("iceCreamDB");
         }
 
+        public int CreateProduct(Product p)
+        {
+            SqlConnection connection = null;
+            string queryString = "INSERT INTO Products (Name, Price, Description, Category)";
+            queryString += " VALUES (@Name, @Price, @Description, @Category);";
+            queryString += " SELECT SCOPE_IDENTITY();";
+            int newId;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                newId = connection.ExecuteScalar<int>(queryString, p);
+            }
+            catch (Exception e)
+            {
+                newId = -1;
+                //log the error--get details from e
+            }
+            finally //cleanup!
+            {
+                if (connection != null)
+                {
+                    connection.Close(); //explicitly closing the connection
+                }
+            }
+
+            return newId;
+        }
+
+        public int DeleteProductById(int id)
+        {
+            //TODO: Refactor with try/catch
+            SqlConnection connection = new SqlConnection(connectionString);
+            string deleteCommand = "DELETE FROM Products WHERE ID = @id";
+
+            int rows = connection.Execute(deleteCommand, new { id = id });
+
+            return rows;
+        }
+
         public string[] GetProductCategories()
         {
             SqlConnection connection = null;

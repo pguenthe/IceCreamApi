@@ -5,8 +5,8 @@ namespace IceCreamAPI.Services
 {
     public interface IDAL
     {
-        //int CreateProduct(Product prod);
-        //int DeleteProductById(int id);
+        int CreateProduct(Product p);
+        int DeleteProductById(int id);
         Product GetProductById(int id);
         string[] GetProductCategories();
         IEnumerable<Product> GetProductsAll();

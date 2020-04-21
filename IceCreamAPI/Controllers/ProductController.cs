@@ -20,6 +20,21 @@ namespace IceCreamAPI.Controllers
             dal = dalObject;
         }
 
+        [HttpDelete("{id}")]
+        public Object Delete (int id)
+        {
+            int result = dal.DeleteProductById(id);
+
+            if (result > 0)
+            {
+                return new { success = true };
+            }
+            else
+            {
+                return new { success = false };
+            }
+        }
+
         [HttpGet("{id}")]
         public Product GetSingleProduct(int id)
         {
@@ -42,13 +57,22 @@ namespace IceCreamAPI.Controllers
             }
         }
 
+        //valid but superceded by Category controller
         [HttpGet("categories")]
         public string[] GetCategories()
         {
             return dal.GetProductCategories();
         }
-        
 
+        [HttpPost]
+        public Object Post(Product p) {
+            int newId = dal.CreateProduct(p);
 
+            if (newId < 0)
+            {
+                return new { success = false };
+            }
+            return new { success = true, id = newId };
+        }
     }
 }
