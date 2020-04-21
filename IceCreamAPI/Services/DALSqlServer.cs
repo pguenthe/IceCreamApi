@@ -87,6 +87,32 @@ namespace IceCreamAPI.Services
             return Products;
         }
 
+        public IEnumerable<Product> GetProductsByCategory(string category)
+        {
+            SqlConnection connection = null;
+            string queryString = "SELECT * FROM Products WHERE Category = @cat";
+            IEnumerable<Product> Products = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                Products = connection.Query<Product>(queryString, new { cat = category } );
+            }
+            catch (Exception e)
+            {
+                //log the error--get details from e
+            }
+            finally //cleanup!
+            {
+                if (connection != null)
+                {
+                    connection.Close(); //explicitly closing the connection
+                }
+            }
+
+            return Products;
+        }
+
         public Product GetProductById(int id)
         {
             SqlConnection connection = null;

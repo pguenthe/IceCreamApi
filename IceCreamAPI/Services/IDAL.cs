@@ -10,7 +10,7 @@ namespace IceCreamAPI.Services
         Product GetProductById(int id);
         string[] GetProductCategories();
         IEnumerable<Product> GetProductsAll();
-        //IEnumerable<Product> GetProductsInCategory(string cat);
+        IEnumerable<Product> GetProductsByCategory(string category);
         //int UpdateProductById(Product prod);
     }
 }
